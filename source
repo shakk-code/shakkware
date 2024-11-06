@@ -1,0 +1,112 @@
+--[[
+    Made with love!
+    shakkware by @minishakk.
+]]
+
+-- Variables --
+
+if not game:IsLoaded() then
+    game.IsLoaded:Wait()
+end
+
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield', true))()
+local player = game.Players.LocalPlayer
+
+local gameIds = {
+    [189707] = "Natural Disaster Survival",
+}
+
+local currentGameName = gameIds[game.PlaceId]
+
+if currentGameName then
+
+    -- Window --
+
+    local Window = Rayfield:CreateWindow({
+        Name = "shakkware - " .. currentGameName,
+        LoadingTitle = "Loading..",
+        LoadingSubtitle = "by minishakk",
+        ConfigurationSaving = {
+            Enabled = true,
+            FolderName = nil,
+            FileName = "Big Hub"
+        },
+        Discord = {
+            Enabled = false,
+            Invite = "noinvitelink",
+            RememberJoins = true
+        },
+        KeySystem = false,
+        KeySettings = {
+            Title = "shakkware - " .. currentGameName,
+            Subtitle = "Key System",
+            Note = "No method of obtaining the key is provided",
+            FileName = "Key",
+            SaveKey = true,
+            GrabKeyFromSite = false,
+            Key = {"shakkware"}
+        }
+    })
+
+    -- Tabs --
+
+    local Main = Window:CreateTab("Main", 4483362458)
+    local Settings = Window:CreateTab("Settings", 80983262444378)
+
+    -- Content --
+
+    local WelcomeParagraph = Main:CreateParagraph({
+        Title = "Welcome, " .. player.Name,
+        Content = "Welcome to shakkware—your ultimate script hub, packed with a wide variety of games and powerful features! Crafted with passion, our scripts offer endless possibilities to enhance your gaming experience. Enjoy, " .. player.Name .. "!"
+    })
+
+    local safeBool = false
+
+    local SafeMode = Settings:CreateToggle({
+        Name = "Safe Mode",
+        CurrentValue = false,
+        Flag = "SafeToggle",
+        Callback = function(Value)
+            safeBool = Value
+        end
+    })
+    
+    local UnloadGUI = Settings:CreateButton({
+        Name = "Unload GUI",
+        Callback = function()
+            if not safeBool then
+                Rayfield:Destroy()
+            else
+                Rayfield:Notify({
+                    Title = "Safe Mode",
+                    Content = "Safe Mode is on, to unload the GUI, please disable.",
+                    Duration = 6.5,
+                    Image = 4483362458,
+                    Actions = {
+                        Ignore = {
+                            Name = "Okay!",
+                            Callback = function()
+                                warn("Safe Mode is on, to unload the GUI, please disable.")
+                            end
+                        }
+                    }
+                })
+            end
+        end
+    })
+else
+    Rayfield:Notify({
+        Title = "Unsupported Game",
+        Content = "This game only supports specific games. Please join our Discord for more information.",
+        Duration = 6.5,
+        Image = 4483362458,
+        Actions = {
+            Ignore = {
+                Name = "Okay!",
+                Callback = function()
+                    warn("This game only supports specific games. Please join our Discord for more information.")
+                end
+            }
+        }
+    })
+end
